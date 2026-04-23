@@ -9,12 +9,12 @@ import Navbar from "./components/Navbar/Navbar";
 function App() {
   return (
     <BrowserRouter>
-    <Navbar />
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/receipt/:id" element={<ReceiptDetailPage />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/search" element={<SearchPage />} />{" "}
         <Route path="/favorites" element={<FavoritePage />} />
       </Routes>
     </BrowserRouter>
