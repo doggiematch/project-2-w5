@@ -2,7 +2,7 @@ import { useEffect, useContext, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { FavoritesContext } from "../../context/FavoritesContext";
 
-function ReceiptDetailPage() {
+function RecipeDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -27,7 +27,7 @@ function ReceiptDetailPage() {
   const hasFinishedLoading = loadedMealId === id && !loading;
 
   if (!hasFinishedLoading || (selectedMeal && !isCurrentMeal)) {
-    return <p>Loading...</p>;
+    return <p>Loading recipe...</p>;
   }
   if (error) {
     return <p>{error}</p>;
@@ -98,4 +98,4 @@ function ReceiptDetailPage() {
   );
 }
 
-export default ReceiptDetailPage;
+export default RecipeDetailPage;

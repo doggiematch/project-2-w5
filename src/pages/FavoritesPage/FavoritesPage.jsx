@@ -2,9 +2,8 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { FavoritesContext } from "../../context/FavoritesContext";
 
-function FavoritePage() {
+function FavoritesPage() {
   const { favorites, removeFavorite } = useContext(FavoritesContext);
-
   return (
     <div>
       <h1>Favorites</h1>
@@ -19,7 +18,7 @@ function FavoritePage() {
                 <img src={meal.strMealThumb} alt={meal.strMeal} />
               </Link>
               <button onClick={() => removeFavorite(meal.idMeal)}>
-                Remove this receipt from your favorites
+                Remove this recipe from your favorites
               </button>
             </article>
           ))}
@@ -29,4 +28,4 @@ function FavoritePage() {
   );
 }
 
-export default FavoritePage;
+export default FavoritesPage;

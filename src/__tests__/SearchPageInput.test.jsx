@@ -13,7 +13,9 @@ test("actualiza valor entrada input", () => {
     </FavoritesProvider>,
   );
 
-  const input = screen.getByPlaceholderText(/Enter ingredients/i);
+  const input = screen.getByPlaceholderText(
+    /Enter your ingredient or ingredients/i,
+  );
   fireEvent.change(input, { target: { value: "egg" } });
   expect(input.value).toBe("egg");
 });

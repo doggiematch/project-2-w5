@@ -1,0 +1,645 @@
+.container {
+  padding: var(--space-100) var(--space-100) var(--space-200);
+  background: linear-gradient(
+    180deg,
+    var(--color-background) 0%,
+    #f7e4cf 34%,
+    var(--color-background) 34%,
+    var(--color-background) 100%
+  );
+}
+
+.group {
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-100);
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--color-text);
+}
+
+.card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-125);
+  padding: var(--space-150) var(--space-150) var(--space-150);
+  background-color: var(--bg);
+  border-radius: 1.5rem;
+  box-shadow: 0 1.25rem 2.8125rem var(--color-shadow);
+}
+
+.heroCard {
+  position: relative;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-075);
+}
+
+.smallText,
+.detailsEyebrow,
+.previewLabel {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.claim {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.instructions,
+.ingredientItem {
+  color: var(--color-text);
+}
+
+.instructions {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.preview {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-075);
+  padding-top: var(--space-025);
+}
+
+.imageBox {
+  position: relative;
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  background-color: #f3efe8;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  box-shadow: 0 1rem 1.875rem var(--color-shadow);
+}
+
+.imageBtn {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.mealName {
+  margin: 0;
+  color: var(--color-primary);
+  text-align: center;
+}
+
+.imageClick {
+  display: none;
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: rgba(51, 51, 51, 0.66);
+  text-align: center;
+}
+
+.favoriteToggle {
+  position: absolute;
+  top: var(--space-075);
+  right: var(--space-075);
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: var(--space-050) var(--space-075);
+  border: var(--border-width-thin) solid rgba(250, 247, 242, 0.95);
+  border-radius: var(--radius-round);
+  background-color: rgba(250, 247, 242, 0.92);
+  backdrop-filter: blur(0.625rem);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.favoriteToggle:hover {
+  box-shadow: 0 0.75rem 1.5rem rgba(231, 111, 81, 0.18);
+}
+
+.favoriteToggleText {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.favoriteToggleTrack {
+  width: 2.8rem;
+  height: 1.55rem;
+  padding: 0.15rem;
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-round);
+  background-color: rgba(231, 111, 81, 0.35);
+  transition: background-color 0.2s ease;
+}
+
+.favoriteToggleThumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background-color: var(--bg);
+  box-shadow: 0 0.25rem 0.625rem rgba(51, 51, 51, 0.18);
+  transition: transform 0.2s ease;
+}
+
+.favoriteToggleOn .favoriteToggleTrack {
+  background-color: var(--color-accent);
+}
+
+.favoriteToggleOn .favoriteToggleThumb {
+  transform: translateX(1.25rem);
+}
+
+.buttons {
+  display: flex;
+  gap: var(--space-075);
+  flex-direction: column;
+  width: 100%;
+}
+
+.primaryBtn,
+.secondaryBtn,
+.detailsLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: var(--space-100) var(--space-125);
+  border-radius: var(--radius-round);
+  border: var(--border-width-thin) solid transparent;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.detailsLink {
+  width: auto;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
+.primaryBtn {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 0.625rem 1.5rem rgba(107, 142, 35, 0.25);
+}
+
+.secondaryBtn,
+.detailsLink {
+  background-color: var(--bg);
+  color: var(--color-primary);
+  border-color: rgba(107, 142, 35, 0.35);
+}
+
+.primaryBtn:hover,
+.secondaryBtn:hover,
+.detailsLink:hover {
+  transform: translateY(-1px);
+}
+
+.primaryBtn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.secondaryBtn:hover,
+.detailsLink:hover {
+  background-color: var(--color-primary-greent08);
+}
+
+.detailsJump {
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-round);
+  background-color: var(--bg);
+  color: var(--color-secondary);
+  text-decoration: none;
+  box-shadow: 0 0.875rem 1.75rem var(--color-shadow);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.detailsJump:hover {
+  transform: translateY(0.125rem);
+  box-shadow: 0 0.625rem 1.25rem rgba(244, 162, 97, 0.2);
+}
+
+.detailsJumpArrow {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.detailsCard {
+  scroll-margin-top: 6rem;
+  background-color: #fffffd;
+}
+
+.detailsHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+}
+
+.detailsTitle {
+  margin: 0.25rem 0 0;
+  color: var(--color-text);
+  font-size: 1.65rem;
+  display: -webkit-box;
+  line-clamp: 2;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.detailsLayout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-100);
+  align-items: stretch;
+}
+
+.detailsColumn {
+  flex: 1 1 16rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+}
+
+.detailsTitleRow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-075);
+  margin-top: var(--space-025);
+}
+
+.videoTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-050) 0.8rem;
+  border-radius: var(--radius-round);
+  background-color: var(--color-secondary-oranget18);
+  color: var(--color-secondary);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.videoTag:hover {
+  transform: translateY(-0.0625rem);
+  background-color: rgba(244, 162, 97, 0.28);
+}
+
+.ingredientsPanel,
+.instructionsPanel {
+  flex: 1 1 16rem;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-100);
+  border-radius: 1.25rem;
+  border: var(--border-width-thin) solid var(--color-border);
+  background-color: var(--bg);
+}
+
+.instructionsPanel {
+  align-self: stretch;
+}
+
+.recipeFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-075);
+}
+
+.recipeFact {
+  margin: 0;
+  flex: 1 1 9rem;
+  padding: var(--space-075) var(--space-100);
+  border-radius: 1rem;
+  background-color: var(--color-background);
+  border: var(--border-width-thin) solid var(--color-border);
+}
+
+.recipeLabel {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.recipeValue {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.sectionTitle {
+  margin: 0 0 var(--space-100);
+  color: var(--color-text);
+  font-size: 1.15rem;
+}
+
+.ingredientsList {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+}
+
+.ingredientItem {
+  line-height: 1.5;
+}
+
+.instructionsBody {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.instructionsBodyExpanded {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.instructionsText {
+  margin: 0;
+  flex: 1;
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.instructionsActions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  min-height: var(--instructions-space);
+  padding-top: var(--space-050);
+}
+
+.expandInstructionsBtn {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.status {
+  margin: 0;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.imageModalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-200);
+  background-color: rgba(51, 51, 51, 0.62);
+}
+
+.imageModal {
+  position: relative;
+  width: 36rem;
+  height: 36rem;
+  padding: 3.5rem var(--space-125) var(--space-125);
+  border-radius: 1.5rem;
+  background-color: var(--bg);
+  box-shadow: 0 1.5rem 3rem rgba(51, 51, 51, 0.2);
+}
+
+.imageModalClose {
+  position: absolute;
+  top: var(--space-100);
+  right: var(--space-100);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.imageModalImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: var(--space-150) var(--space-200) var(--space-250);
+  }
+
+  .title {
+    font-size: 2.6rem;
+  }
+
+  .card {
+    padding: 1.7rem var(--space-200);
+  }
+
+  .preview {
+    width: 21rem;
+    flex-shrink: 0;
+  }
+
+  .imageBox {
+    max-width: 21rem;
+  }
+
+  .buttons {
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: auto;
+  }
+
+  .detailsHeader {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .detailsHeader > div {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .preview {
+    width: 100%;
+    max-width: none;
+    margin-top: var(--space-100);
+  }
+
+  .imageBox {
+    width: 100%;
+    max-width: none;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    flex: 1 1 0;
+    width: 100%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .imageClick {
+    display: block;
+    position: absolute;
+    left: var(--space-200);
+    bottom: var(--space-150);
+    max-width: 16rem;
+    text-align: left;
+  }
+
+  .imageBtn {
+    cursor: pointer;
+  }
+
+  .image {
+    cursor: pointer;
+  }
+
+  .imageBtn:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 0.2rem;
+  }
+
+  .card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .heroCard {
+    padding-bottom: 3.6rem;
+  }
+
+  .copy {
+    flex: 1;
+    padding-right: var(--space-175);
+  }
+
+  .detailsCard {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .detailsLayout {
+    flex-wrap: nowrap;
+  }
+
+  .detailsColumn,
+  .instructionsPanel {
+    flex: 1 1 24rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    padding: var(--space-200) 4rem var(--space-300);
+  }
+
+  .group {
+    max-width: 72rem;
+    gap: var(--space-150);
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+
+  .card {
+    padding: var(--space-200) var(--space-250);
+  }
+
+  .heroCard {
+    padding-bottom: 4rem;
+  }
+
+  .preview {
+    width: 22rem;
+  }
+
+  .imageBox {
+    max-width: 22rem;
+  }
+
+  .imageModal {
+    width: 40rem;
+    height: 40rem;
+  }
+
+  .imageClick {
+    left: var(--space-250);
+    bottom: var(--space-175);
+  }
+}

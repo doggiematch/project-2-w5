@@ -1,0 +1,85 @@
+.page {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-400) var(--space-100) var(--space-400);
+  background:
+    radial-gradient(circle at top, var(--color-secondary-oranget20), transparent 28rem),
+    linear-gradient(180deg, var(--color-background) 0%, #f6efe5 100%);
+}
+
+.card {
+  width: 100%;
+  max-width: 42rem;
+  padding: var(--space-250) var(--space-150);
+  text-align: center;
+  background: rgba(255, 253, 249, 0.94);
+  border: var(--border-width-thin) solid var(--color-primary-greent16);
+  border-radius: 1.75rem;
+  box-shadow: 0 var(--space-150) var(--space-400) var(--color-shadow);
+}
+
+.code {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.eyebrow {
+  margin: 0 0 0.9rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.title {
+  margin: 0;
+  font-size: 2.6rem;
+  line-height: 1.1;
+}
+
+.description {
+  max-width: 31rem;
+  margin: var(--space-100) auto 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--color-text-greyt88);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: var(--space-400) var(--space-150) var(--space-550);
+  }
+
+  .card {
+    padding: 3.25rem var(--space-300);
+  }
+}
+
+@media (min-width: 1024px) {
+  .card {
+    max-width: 46rem;
+    padding: 3.5rem 3.5rem;
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .page {
+    padding: 5rem 4rem 6rem;
+  }
+
+  .card {
+    max-width: 50rem;
+    padding: 4rem 4.5rem;
+  }
+
+  .title {
+    font-size: 3.4rem;
+  }
+}

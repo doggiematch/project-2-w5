@@ -70,19 +70,17 @@ function SearchPage() {
           </p>
         </>
       )}
-
       <input
         type="text"
         placeholder="Enter your ingredient or ingredients"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-
       <button onClick={handleSearch}>Search</button>
       <button onClick={handleClear}>Clear search</button>
       <button onClick={handleRandom}>Random</button>
 
-      {loading && <p>Loading...</p>}
+      {loading && <p>Loading recipe...</p>}
       {error && <p>{error}</p>}
       {!loading &&
         !error &&

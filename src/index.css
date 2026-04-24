@@ -1,5 +1,78 @@
-/* * {
-  margin: 0;
-  padding: 0;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap");
+
+:root {
+  --color-primary: #6b8e23;
+  --color-primary-hover: #5a791e;
+  --color-primary-greent08: rgba(107, 142, 35, 0.08);
+  --color-primary-greent16: rgba(107, 142, 35, 0.16);
+  --color-secondary: #f4a261;
+  --color-secondary-oranget18: rgba(244, 162, 97, 0.18);
+  --color-secondary-oranget20: rgba(244, 162, 97, 0.2);
+  --color-background: #faf7f2;
+  --bg: #fffdf9;
+  --bg-soft: #f8f4ee;
+  --color-text: #333333;
+  --color-text-greyt88: rgba(51, 51, 51, 0.88);
+  --color-accent: #e76f51;
+  --color-border: #e7d8c7;
+  --color-white: #fffcfc;
+  --color-shadow: rgba(51, 51, 51, 0.12);
+  --space-025: 0.25rem;
+  --space-050: 0.5rem;
+  --space-075: 0.75rem;
+  --space-100: 1rem;
+  --space-125: 1.25rem;
+  --space-150: 1.5rem;
+  --space-175: 1.75rem;
+  --space-200: 2rem;
+  --space-250: 2.5rem;
+  --space-300: 3rem;
+  --space-400: 4rem;
+  --space-550: 5.5rem;
+  --border-width-thin: 1px;
+  --radius-round: 999px;
+  --instructions-space: var(--space-125);
+  --font-heading: "Playfair Display", serif;
+  --font-body: "Inter", sans-serif;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-} */
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  font-family: var(--font-heading);
+  color: var(--color-text);
+}
+
+a {
+  color: inherit;
+}
