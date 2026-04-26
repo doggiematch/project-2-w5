@@ -1,0 +1,235 @@
+.container {
+  min-height: 100%;
+  padding: var(--space-100) var(--space-100) var(--space-200);
+  background: linear-gradient(
+    180deg,
+    var(--color-background) 0%,
+    #f7e4cf 22%,
+    var(--color-background) 22%,
+    var(--color-background) 100%
+  );
+}
+
+.searchCard,
+.resultsInfo {
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto var(--space-100);
+  padding: var(--space-150);
+  background-color: var(--bg);
+  border-radius: var(--space-150);
+  box-shadow: 0 var(--space-125) var(--space-250) var(--color-shadow);
+}
+
+.smallText {
+  margin: 0 0 var(--space-050);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--color-text);
+}
+
+.description {
+  margin: var(--space-075) 0 var(--space-125);
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.searchBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-075);
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-100) var(--space-125);
+  border: var(--border-width-thin) solid var(--color-border);
+  border-radius: var(--radius-round);
+  background-color: var(--color-white);
+  color: var(--color-text);
+}
+
+.input:focus {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+.primaryBtn,
+.secondaryBtn,
+.pageBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-100) var(--space-125);
+  border-radius: var(--radius-round);
+  border: var(--border-width-thin) solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.primaryBtn {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.secondaryBtn,
+.pageBtn {
+  background-color: var(--bg);
+  color: var(--color-primary);
+  border-color: var(--color-primary-greent16);
+}
+
+.primaryBtn:hover,
+.secondaryBtn:hover,
+.pageBtn:hover {
+  transform: translateY(-1px);
+}
+
+.primaryBtn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.secondaryBtn:hover,
+.pageBtn:hover {
+  background-color: var(--color-primary-greent08);
+}
+
+.resultsInfo {
+  box-shadow: none;
+  border: var(--border-width-thin) solid var(--color-border);
+}
+
+.emptyState {
+  width: 100%;
+  max-width: 60rem;
+  min-height: 16rem;
+  margin: 0 auto;
+  padding: var(--space-200);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: var(--border-width-thin) dashed var(--color-border);
+  border-radius: var(--space-150);
+  background-color: var(--bg);
+}
+
+.emptyTitle {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+.emptyText {
+  margin: var(--space-050) 0 0;
+  color: var(--color-text-greyt88);
+  font-size: 1rem;
+}
+
+.subtitle {
+  margin: 0 0 var(--space-050);
+  font-size: 1.5rem;
+}
+
+.resultsCount,
+.status {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.status {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: var(--space-150);
+  text-align: center;
+}
+
+.resultsGrid {
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-100);
+}
+
+.pagination {
+  width: 100%;
+  max-width: 60rem;
+  margin: var(--space-150) auto 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-050);
+}
+
+.pageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: var(--space-150) var(--space-200) var(--space-250);
+  }
+
+  .searchCard,
+  .resultsInfo {
+    padding: var(--space-175) var(--space-200);
+  }
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .emptyTitle {
+    font-size: 2.5rem;
+  }
+
+  .searchBox {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .input {
+    flex: 1 1 18rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .searchBox {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    padding: var(--space-200) 4rem var(--space-300);
+  }
+
+  .searchCard,
+  .resultsInfo,
+  .emptyState,
+  .resultsGrid,
+  .pagination,
+  .status {
+    max-width: 70rem;
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+}

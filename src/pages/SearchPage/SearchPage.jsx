@@ -2,29 +2,31 @@ import { useState, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { FavoritesContext } from "../../context/FavoritesContext";
 import RecipeCard from "../../components/RecipeCard/RecipeCard";
+import styles from "./SearchPage.module.css";
 
 function SearchPage() {
   const location = useLocation();
-  const [initialQuery] = useState(
-    () => location.state?.query || localStorage.getItem("lastQuery") || "",
-  );
+  const [initialQuery] = useState(() => location.state?.query || "");
   const [query, setQuery] = useState(initialQuery);
   const [lastQuery, setLastQuery] = useState(initialQuery);
   const [hasSearched, setHasSearched] = useState(!!initialQuery);
   const [currentPage, setCurrentPage] = useState(1);
   const { results, searchMeals, getRandomMeal, clearResults, loading, error } =
     useContext(FavoritesContext);
-  const itemsPerPage = 10;
+  const itemsPerPage = 12;
 
   useEffect(() => {
-    if (initialQuery && results.length === 0) {
-      if (initialQuery === "random") {
-        getRandomMeal();
-      } else {
-        searchMeals(initialQuery);
-      }
+    if (!initialQuery) {
+      clearResults();
+      localStorage.removeItem("lastQuery");
+      return;
     }
-  }, [getRandomMeal, initialQuery, results.length, searchMeals]);
+    if (initialQuery === "random") {
+      getRandomMeal(itemsPerPage);
+      return;
+    }
+    searchMeals(initialQuery);
+  }, [clearResults, getRandomMeal, initialQuery, searchMeals]);
 
   const handleSearch = () => {
     if (!query.trim()) return;
@@ -45,54 +47,79 @@ function SearchPage() {
   };
 
   const handleRandom = () => {
-    getRandomMeal();
+    getRandomMeal(itemsPerPage);
+    setQuery("");
     setLastQuery("random");
     setHasSearched(true);
     setCurrentPage(1);
     localStorage.setItem("lastQuery", "random");
   };
-
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentResults = results.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(results.length / itemsPerPage);
 
   return (
-    <div>
-      <h1>Search</h1>
+    <div className={styles.container}>
+      <section className={styles.searchCard}>
+        <p className={styles.smallText}>Search by ingredient</p>
+        <h1 className={styles.title}>Find recipes</h1>
+        <p className={styles.description}>
+          Type one ingredient and discover meals you can cook with it.
+        </p>
+        <div className={styles.searchBox}>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="Enter your ingredient or ingredients"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button className={styles.primaryBtn} onClick={handleSearch}>
+            Search
+          </button>
+          <button className={styles.secondaryBtn} onClick={handleClear}>
+            Clear search
+          </button>
+          <button className={styles.secondaryBtn} onClick={handleRandom}>
+            Random
+          </button>
+        </div>
+      </section>
       {hasSearched && (
-        <>
-          <h2>You are viewing recipes with: {lastQuery}</h2>
-          <p>
+        <section className={styles.resultsInfo}>
+          <h2 className={styles.subtitle}>
+            You are viewing recipes with: {lastQuery}
+          </h2>
+          <p className={styles.resultsCount}>
             {results.length === 1
               ? "1 result found"
               : `${results.length} results found`}
           </p>
-        </>
+        </section>
       )}
-      <input
-        type="text"
-        placeholder="Enter your ingredient or ingredients"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button onClick={handleSearch}>Search</button>
-      <button onClick={handleClear}>Clear search</button>
-      <button onClick={handleRandom}>Random</button>
-
-      {loading && <p>Loading recipe...</p>}
-      {error && <p>{error}</p>}
-      {!loading &&
+      {loading && <p className={styles.status}>Loading recipe...</p>}
+      {error && <p className={styles.status}>{error}</p>}
+      {!loading && !error && !hasSearched && (
+        <section className={styles.emptyState}>
+          <h2 className={styles.emptyTitle}>Make your first search</h2>
+          <p className={styles.emptyText}>Search by one or more ingredients</p>
+        </section>
+      )}
+      {loading &&
         !error &&
         hasSearched &&
         (currentResults.length > 0 ? (
           <>
-            {currentResults.map((meal) => (
-              <RecipeCard key={meal.idMeal} meal={meal} query={lastQuery} />
-            ))}
+            <div className={styles.resultsGrid}>
+              {currentResults.map((meal) => (
+                <RecipeCard key={meal.idMeal} meal={meal} query={lastQuery} />
+              ))}
+            </div>
             {totalPages > 1 && (
-              <div>
+              <div className={styles.pagination}>
                 <button
+                  className={styles.pageBtn}
                   onClick={() => setCurrentPage((prev) => prev - 1)}
                   disabled={currentPage === 1}
                 >
@@ -101,6 +128,7 @@ function SearchPage() {
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map(
                   (page) => (
                     <button
+                      className={styles.pageBtn}
                       key={page}
                       onClick={() => setCurrentPage(page)}
                       disabled={currentPage === page}
@@ -110,6 +138,7 @@ function SearchPage() {
                   ),
                 )}
                 <button
+                  className={styles.pageBtn}
                   onClick={() => setCurrentPage((prev) => prev + 1)}
                   disabled={currentPage === totalPages}
                 >
@@ -119,7 +148,7 @@ function SearchPage() {
             )}
           </>
         ) : (
-          <p>No results found</p>
+          <p className={styles.status}>No results found</p>
         ))}
     </div>
   );

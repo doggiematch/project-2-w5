@@ -150,7 +150,10 @@ function Homepage() {
               what is already in your kitchen.
             </p>
             <div className={styles.buttons}>
-              <button className={styles.primaryBtn} onClick={getRandomMeal}>
+              <button
+                className={styles.primaryBtn}
+                onClick={() => getRandomMeal()}
+              >
                 Surprise me!
               </button>
               <Link className={styles.secondaryBtn} to="/search">

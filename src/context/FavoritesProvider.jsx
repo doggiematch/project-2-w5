@@ -70,20 +70,28 @@ function FavoritesProvider({ children }) {
       });
   }, []);
 
-  const getRandomMeal = useCallback(() => {
+  const getRandomMeal = useCallback((amount = 1) => {
     setLoading(true);
     setError("");
+    const totalMeals = Number.isInteger(amount) ? amount : 1;
+    const randomRequests = Array.from({ length: totalMeals }, () =>
+      fetch("https://www.themealdb.com/api/json/v1/1/random.php").then(
+        (res) => {
+          if (!res.ok) {
+            throw new Error("An error has occurred");
+          }
+          return res.json();
+        },
+      ),
+    );
 
-    return fetch("https://www.themealdb.com/api/json/v1/1/random.php")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("An error has occurred");
-        }
-        return res.json();
-      })
+    return Promise.all(randomRequests)
       .then((data) => {
-        setResults(data.meals || []);
-        saveResults(data.meals || []);
+        const randomMeals = data
+          .map((result) => result.meals?.[0])
+          .filter(Boolean);
+        setResults(randomMeals);
+        saveResults(randomMeals);
       })
       .catch(() => {
         setError("An error has occurred.");
@@ -160,8 +168,6 @@ function FavoritesProvider({ children }) {
       clearResults,
       selectedMeal,
       getMealById,
-      loading,
-      error,
     }),
     [
       favorites,
