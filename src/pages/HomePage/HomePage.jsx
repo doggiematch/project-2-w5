@@ -109,7 +109,22 @@ function Homepage() {
     );
   }
 
-  if (!meal) return null;
+  if (!meal || !meal.strInstructions) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.card}>
+          <p className={styles.status}>Loading recipe...</p>
+          <button
+            className={styles.primaryBtn}
+            onClick={() => getRandomMeal()}
+            type="button"
+          >
+            Surprise me!
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const isFavorite = favorites.some(
     (favorite) => favorite.idMeal === meal.idMeal,

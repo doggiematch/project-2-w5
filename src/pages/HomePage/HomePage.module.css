@@ -460,8 +460,8 @@
 
 .imageModal {
   position: relative;
-  width: 36rem;
-  height: 36rem;
+  width: min(46rem, 92vw);
+  height: min(46rem, 88vh);
   padding: 3.5rem var(--space-125) var(--space-125);
   border-radius: 1.5rem;
   background-color: var(--bg);
@@ -634,8 +634,8 @@
   }
 
   .imageModal {
-    width: 40rem;
-    height: 40rem;
+    width: min(54rem, 88vw);
+    height: min(54rem, 86vh);
   }
 
   .imageClick {

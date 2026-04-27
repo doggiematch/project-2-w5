@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { FavoritesContext } from "../../context/FavoritesContext";
 import RecipeCard from "../../components/RecipeCard/RecipeCard";
+import ScrollTopButton from "../../components/ScrollTopButton/ScrollTopButton";
 import styles from "./SearchPage.module.css";
 
 function SearchPage() {
@@ -58,6 +59,7 @@ function SearchPage() {
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentResults = results.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(results.length / itemsPerPage);
+  const showResults = !loading && !error && hasSearched;
 
   return (
     <div className={styles.container}>
@@ -106,50 +108,49 @@ function SearchPage() {
           <p className={styles.emptyText}>Search by one or more ingredients</p>
         </section>
       )}
-      {loading &&
-        !error &&
-        hasSearched &&
-        (currentResults.length > 0 ? (
-          <>
-            <div className={styles.resultsGrid}>
-              {currentResults.map((meal) => (
-                <RecipeCard key={meal.idMeal} meal={meal} query={lastQuery} />
-              ))}
+      {showResults && results.length > 0 && (
+        <div style={{ marginTop: "1.5rem" }}>
+          <div className={styles.resultsGrid}>
+            {currentResults.map((meal) => (
+              <RecipeCard key={meal.idMeal} meal={meal} query={lastQuery} />
+            ))}
+          </div>
+          {totalPages > 1 && (
+            <div className={styles.pagination}>
+              <button
+                className={styles.pageBtn}
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                disabled={currentPage === 1}
+              >
+                Prev
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                (page) => (
+                  <button
+                    className={styles.pageBtn}
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    disabled={currentPage === page}
+                  >
+                    {page}
+                  </button>
+                ),
+              )}
+              <button
+                className={styles.pageBtn}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
             </div>
-            {totalPages > 1 && (
-              <div className={styles.pagination}>
-                <button
-                  className={styles.pageBtn}
-                  onClick={() => setCurrentPage((prev) => prev - 1)}
-                  disabled={currentPage === 1}
-                >
-                  Prev
-                </button>
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                  (page) => (
-                    <button
-                      className={styles.pageBtn}
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      disabled={currentPage === page}
-                    >
-                      {page}
-                    </button>
-                  ),
-                )}
-                <button
-                  className={styles.pageBtn}
-                  onClick={() => setCurrentPage((prev) => prev + 1)}
-                  disabled={currentPage === totalPages}
-                >
-                  Next
-                </button>
-              </div>
-            )}
-          </>
-        ) : (
-          <p className={styles.status}>No results found</p>
-        ))}
+          )}
+        </div>
+      )}
+      {showResults && results.length === 0 && (
+        <p className={styles.status}>No results found</p>
+      )}
+      <ScrollTopButton />
     </div>
   );
 }

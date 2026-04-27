@@ -1,0 +1,347 @@
+.container {
+  min-height: 100%;
+  padding: var(--space-100) var(--space-100) var(--space-200);
+  background: linear-gradient(
+    180deg,
+    var(--color-background) 0%,
+    #f7e4cf 34%,
+    var(--color-background) 34%,
+    var(--color-background) 100%
+  );
+}
+
+.group {
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+}
+
+.card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-125);
+  padding: var(--space-150);
+  background-color: var(--bg);
+  border-radius: 1.5rem;
+  box-shadow: 0 1.25rem 2.8125rem var(--color-shadow);
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-075);
+}
+
+.smallText {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  color: var(--color-text);
+}
+
+.preview {
+  width: 100%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 1.25rem;
+  box-shadow: 0 1rem 1.875rem var(--color-shadow);
+}
+
+.imageBtn {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.imageClick {
+  display: none;
+  margin: var(--space-050) 0 0;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  color: rgba(51, 51, 51, 0.66);
+  text-align: center;
+}
+
+.recipeFacts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-075);
+}
+
+.recipeFact {
+  margin: 0;
+  flex: 1 1 9rem;
+  padding: var(--space-075) var(--space-100);
+  border-radius: 1rem;
+  background-color: var(--color-background);
+  border: var(--border-width-thin) solid var(--color-border);
+}
+
+.recipeLabel {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04rem;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.recipeValue {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-075);
+  width: 100%;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: var(--space-100) var(--space-125);
+  border-radius: var(--radius-round);
+  border: var(--border-width-thin) solid transparent;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.primaryBtn {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.secondaryBtn {
+  background-color: var(--bg);
+  color: var(--color-primary);
+  border-color: rgba(107, 142, 35, 0.35);
+}
+
+.primaryBtn:hover,
+.secondaryBtn:hover {
+  transform: translateY(-1px);
+}
+
+.primaryBtn:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.secondaryBtn:hover {
+  background-color: var(--color-primary-greent08);
+}
+
+.message,
+.status {
+  margin: 0;
+  color: var(--color-text);
+}
+
+.status {
+  text-align: center;
+}
+
+.detailsCard {
+  background-color: #fffffd;
+}
+
+.detailsLayout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-100);
+}
+
+.ingredientsPanel,
+.instructionsPanel {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-100);
+  border-radius: 1.25rem;
+  border: var(--border-width-thin) solid var(--color-border);
+  background-color: var(--bg);
+}
+
+.sectionTitle {
+  margin: 0 0 var(--space-100);
+  color: var(--color-text);
+  font-size: 1.15rem;
+}
+
+.ingredientsList {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-050);
+}
+
+.ingredientItem {
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.instructionsText {
+  margin: 0;
+  color: var(--color-text);
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.imageModalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-200);
+  background-color: rgba(51, 51, 51, 0.62);
+}
+
+.imageModal {
+  position: relative;
+  width: min(46rem, 92vw);
+  height: min(46rem, 88vh);
+  padding: 3.5rem var(--space-125) var(--space-125);
+  border-radius: 1.5rem;
+  background-color: var(--bg);
+  box-shadow: 0 1.5rem 3rem rgba(51, 51, 51, 0.2);
+}
+
+.imageModalClose {
+  position: absolute;
+  top: var(--space-100);
+  right: var(--space-100);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--color-primary);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.imageModalImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: var(--space-150) var(--space-200) var(--space-250);
+  }
+
+  .card {
+    padding: 1.7rem var(--space-200);
+  }
+
+  .title {
+    font-size: 2.6rem;
+  }
+
+  .buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .primaryBtn,
+  .secondaryBtn {
+    width: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroCard {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .copy {
+    flex: 1;
+    padding-right: var(--space-175);
+  }
+
+  .preview {
+    width: 21rem;
+    flex-shrink: 0;
+  }
+
+  .image,
+  .imageBtn {
+    cursor: pointer;
+  }
+
+  .imageBtn:focus-visible {
+    outline: 2px solid var(--color-secondary);
+    outline-offset: 0.2rem;
+    border-radius: 1.25rem;
+  }
+
+  .imageClick {
+    display: block;
+  }
+
+  .detailsLayout {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .ingredientsPanel {
+    flex: 1 1 18rem;
+  }
+
+  .instructionsPanel {
+    flex: 2 1 28rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    padding: var(--space-200) 4rem var(--space-300);
+  }
+
+  .group {
+    max-width: 72rem;
+    gap: var(--space-150);
+  }
+
+  .card {
+    padding: var(--space-200) var(--space-250);
+  }
+
+  .imageModal {
+    width: min(54rem, 88vw);
+    height: min(54rem, 86vh);
+  }
+}

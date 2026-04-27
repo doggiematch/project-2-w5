@@ -14,6 +14,27 @@ function saveResults(meals) {
   localStorage.setItem("results", JSON.stringify(meals));
 }
 
+function normalizeIngredient(value) {
+  return value.trim().toLowerCase();
+}
+
+function getMealIngredients(meal) {
+  return Array.from({ length: 20 }, (_, index) => {
+    const ingredient = meal[`strIngredient${index + 1}`];
+    return ingredient ? normalizeIngredient(ingredient) : "";
+  }).filter(Boolean);
+}
+
+function mealMatchesIngredients(meal, ingredients) {
+  const mealIngredients = getMealIngredients(meal);
+
+  return ingredients.every((ingredient) =>
+    mealIngredients.some((mealIngredient) =>
+      mealIngredient.includes(normalizeIngredient(ingredient)),
+    ),
+  );
+}
+
 function FavoritesProvider({ children }) {
   const [favorites, setFavorites] = useState(() => getStoredList("favorites"));
   const [results, setResults] = useState(() => getStoredList("results"));
@@ -50,6 +71,38 @@ function FavoritesProvider({ children }) {
     )
       .then((data) => {
         const mealsArrays = data.map((res) => res.meals || []);
+        const candidateMeals = mealsArrays
+          .flat()
+          .filter(
+            (meal, index, meals) =>
+              meals.findIndex((item) => item.idMeal === meal.idMeal) === index,
+          );
+
+        if (ingredients.length > 1 && candidateMeals.length > 0) {
+          return Promise.all(
+            candidateMeals.map((meal) =>
+              fetch(
+                `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${encodeURIComponent(
+                  meal.idMeal,
+                )}`,
+              ).then((res) => {
+                if (!res.ok) {
+                  throw new Error("An error has occurred");
+                }
+                return res.json();
+              }),
+            ),
+          ).then((mealDetails) => {
+            const matchingMeals = mealDetails
+              .map((result) => result.meals?.[0])
+              .filter(Boolean)
+              .filter((meal) => mealMatchesIngredients(meal, ingredients));
+
+            setResults(matchingMeals);
+            saveResults(matchingMeals);
+          });
+        }
+
         const matchingMeals = mealsArrays.reduce((matches, meals, index) => {
           if (index === 0) {
             return meals;
@@ -168,6 +221,8 @@ function FavoritesProvider({ children }) {
       clearResults,
       selectedMeal,
       getMealById,
+      loading,
+      error,
     }),
     [
       favorites,
