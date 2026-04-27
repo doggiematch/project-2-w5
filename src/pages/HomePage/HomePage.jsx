@@ -8,6 +8,7 @@ const previewQuery = "(min-width: 1024px)";
 
 function canOpenDesktopImagePreview() {
   if (typeof window === "undefined") return false;
+  if (typeof window.matchMedia !== "function") return false;
   return window.matchMedia(previewQuery).matches;
 }
 
@@ -57,6 +58,7 @@ function Homepage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
+    if (typeof window.matchMedia !== "function") return undefined;
     const mediaQuery = window.matchMedia(previewQuery);
     const handlePreviewChange = (event) => {
       setCanPreviewImage(event.matches);

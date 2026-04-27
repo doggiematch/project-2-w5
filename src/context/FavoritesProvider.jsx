@@ -14,6 +14,51 @@ function saveResults(meals) {
   localStorage.setItem("results", JSON.stringify(meals));
 }
 
+function getErrorMessage() {
+  return "An error has occurred.";
+}
+
+function mealHasDetails(meal) {
+  return Boolean(meal?.strInstructions?.trim() && getMealIngredients(meal).length);
+}
+
+function fetchMealById(id) {
+  return fetch(
+    `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${encodeURIComponent(
+      id,
+    )}`,
+  ).then((res) => {
+    if (!res.ok) {
+      throw new Error(getErrorMessage());
+    }
+    return res.json();
+  });
+}
+
+function getUniqueMeals(meals) {
+  return meals.filter(
+    (meal, index, mealList) =>
+      mealList.findIndex((item) => item.idMeal === meal.idMeal) === index,
+  );
+}
+
+function getIntersectingMeals(mealsArrays) {
+  return mealsArrays.reduce((matches, meals, index) => {
+    if (index === 0) {
+      return meals;
+    }
+    const mealIds = new Set(meals.map((meal) => meal.idMeal));
+    return matches.filter((meal) => mealIds.has(meal.idMeal));
+  }, []);
+}
+
+function parseIngredients(query) {
+  return query
+    .split(/[,;\n]+|\s+(?:and|y)\s+/i)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 function normalizeIngredient(value) {
   return value.trim().toLowerCase();
 }
@@ -44,10 +89,7 @@ function FavoritesProvider({ children }) {
   const searchMeals = useCallback((query) => {
     setLoading(true);
     setError("");
-    const ingredients = query
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
+    const ingredients = parseIngredients(query);
     if (ingredients.length === 0) {
       setResults([]);
       saveResults([]);
@@ -55,7 +97,7 @@ function FavoritesProvider({ children }) {
       return;
     }
 
-    return Promise.all(
+    return Promise.allSettled(
       ingredients.map((ingredient) =>
         fetch(
           `https://www.themealdb.com/api/json/v1/1/filter.php?i=${encodeURIComponent(
@@ -69,52 +111,51 @@ function FavoritesProvider({ children }) {
         }),
       ),
     )
-      .then((data) => {
+      .then((ingredientResults) => {
+        const data = ingredientResults
+          .filter((result) => result.status === "fulfilled")
+          .map((result) => result.value);
         const mealsArrays = data.map((res) => res.meals || []);
-        const candidateMeals = mealsArrays
-          .flat()
-          .filter(
-            (meal, index, meals) =>
-              meals.findIndex((item) => item.idMeal === meal.idMeal) === index,
-          );
 
-        if (ingredients.length > 1 && candidateMeals.length > 0) {
-          return Promise.all(
+        if (mealsArrays.length === 0) {
+          setResults([]);
+          saveResults([]);
+          return;
+        }
+
+        const candidateMeals = getUniqueMeals(mealsArrays.flat());
+        const intersectingMeals = getIntersectingMeals(mealsArrays);
+
+        if (intersectingMeals.length > 0 || ingredients.length === 1) {
+          setResults(intersectingMeals);
+          saveResults(intersectingMeals);
+          return;
+        }
+
+        if (candidateMeals.length > 0) {
+          return Promise.allSettled(
             candidateMeals.map((meal) =>
-              fetch(
-                `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${encodeURIComponent(
-                  meal.idMeal,
-                )}`,
-              ).then((res) => {
-                if (!res.ok) {
-                  throw new Error("An error has occurred");
-                }
-                return res.json();
-              }),
+              fetchMealById(meal.idMeal),
             ),
           ).then((mealDetails) => {
             const matchingMeals = mealDetails
-              .map((result) => result.meals?.[0])
+              .filter((result) => result.status === "fulfilled")
+              .map((result) => result.value.meals?.[0])
               .filter(Boolean)
               .filter((meal) => mealMatchesIngredients(meal, ingredients));
+            const mealsToSave =
+              matchingMeals.length > 0 ? matchingMeals : intersectingMeals;
 
-            setResults(matchingMeals);
-            saveResults(matchingMeals);
+            setResults(mealsToSave);
+            saveResults(mealsToSave);
           });
         }
 
-        const matchingMeals = mealsArrays.reduce((matches, meals, index) => {
-          if (index === 0) {
-            return meals;
-          }
-          const mealIds = new Set(meals.map((meal) => meal.idMeal));
-          return matches.filter((meal) => mealIds.has(meal.idMeal));
-        }, []);
-        setResults(matchingMeals);
-        saveResults(matchingMeals);
+        setResults([]);
+        saveResults([]);
       })
       .catch(() => {
-        setError("An error has occurred");
+        setError(getErrorMessage());
         setResults([]);
         saveResults([]);
       })
@@ -131,7 +172,7 @@ function FavoritesProvider({ children }) {
       fetch("https://www.themealdb.com/api/json/v1/1/random.php").then(
         (res) => {
           if (!res.ok) {
-            throw new Error("An error has occurred");
+            throw new Error(getErrorMessage());
           }
           return res.json();
         },
@@ -147,7 +188,7 @@ function FavoritesProvider({ children }) {
         saveResults(randomMeals);
       })
       .catch(() => {
-        setError("An error has occurred.");
+        setError(getErrorMessage());
         setResults([]);
         saveResults([]);
       })
@@ -162,27 +203,22 @@ function FavoritesProvider({ children }) {
     localStorage.removeItem("results");
   }, []);
 
-  const getMealById = useCallback((id) => {
+  const getMealById = useCallback((id, fallbackMeal = null) => {
     setLoading(true);
     setError("");
-    setSelectedMeal(null);
+    setSelectedMeal(fallbackMeal?.idMeal === id ? fallbackMeal : null);
 
-    return fetch(
-      `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${encodeURIComponent(
-        id,
-      )}`,
-    )
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("An error has occurred");
-        }
-        return res.json();
-      })
+    return fetchMealById(id)
       .then((data) => {
         setSelectedMeal(data.meals?.[0] || null);
       })
       .catch(() => {
-        setError("An error has occurred.");
+        if (fallbackMeal?.idMeal === id) {
+          setSelectedMeal(fallbackMeal);
+          return;
+        }
+
+        setError(getErrorMessage());
         setSelectedMeal(null);
       })
       .finally(() => {
@@ -198,6 +234,27 @@ function FavoritesProvider({ children }) {
 
       return alreadyExists ? currentFavorites : [...currentFavorites, meal];
     });
+
+    if (!mealHasDetails(meal)) {
+      fetchMealById(meal.idMeal)
+        .then((data) => {
+          const detailedMeal = data.meals?.[0];
+          if (!detailedMeal) return;
+          setFavorites((currentFavorites) =>
+            currentFavorites.map((favorite) =>
+              favorite.idMeal === detailedMeal.idMeal
+                ? detailedMeal
+                : favorite,
+            ),
+          );
+          setSelectedMeal((currentMeal) =>
+            currentMeal?.idMeal === detailedMeal.idMeal
+              ? detailedMeal
+              : currentMeal,
+          );
+        })
+        .catch(() => {});
+    }
   }, []);
 
   const removeFavorite = useCallback((id) => {

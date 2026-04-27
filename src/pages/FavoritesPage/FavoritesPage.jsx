@@ -5,6 +5,13 @@ import ScrollTopButton from "../../components/ScrollTopButton/ScrollTopButton";
 import { useDebounce } from "../../hooks/useDebounce";
 import styles from "./FavoritesPage.module.css";
 
+function getIngredients(meal) {
+  return Array.from({ length: 20 }, (_, index) => {
+    const ingredient = meal[`strIngredient${index + 1}`];
+    return ingredient?.trim() || "";
+  }).filter(Boolean);
+}
+
 function FavoritesPage() {
   const { favorites, removeFavorite } = useContext(FavoritesContext);
   const [query, setQuery] = useState("");
@@ -12,9 +19,14 @@ function FavoritesPage() {
   const itemsPerPage = 12;
   const debouncedQuery = useDebounce(query, 300);
 
-  const filteredFavorites = favorites.filter((meal) =>
-    meal.strMeal.toLowerCase().includes(debouncedQuery.trim().toLowerCase()),
-  );
+  const normalizedQuery = debouncedQuery.trim().toLowerCase();
+  const filteredFavorites = normalizedQuery
+    ? favorites.filter((meal) =>
+        getIngredients(meal).some((ingredient) =>
+          ingredient.toLowerCase().includes(normalizedQuery),
+        ),
+      )
+    : favorites;
   const totalPages = Math.ceil(filteredFavorites.length / itemsPerPage);
   const safeCurrentPage = Math.min(currentPage, totalPages || 1);
   const indexOfLast = safeCurrentPage * itemsPerPage;
@@ -47,13 +59,13 @@ function FavoritesPage() {
         <p className={styles.smallText}>Saved recipes</p>
         <h1 className={styles.title}>Favorites</h1>
         <p className={styles.description}>
-          Search inside the recipes you saved.
+          Search your saved recipes by ingredient.
         </p>
         <div className={styles.searchBox}>
           <input
             className={styles.input}
             type="text"
-            placeholder="Search your favorite recipes"
+            placeholder="Search by ingredient"
             value={query}
             onChange={handleQueryChange}
           />
@@ -93,7 +105,11 @@ function FavoritesPage() {
                 >
                   X
                 </button>
-                <Link className={styles.cardLink} to={`/recipe/${meal.idMeal}`}>
+                <Link
+                  className={styles.cardLink}
+                  state={{ fromFavorites: true, meal }}
+                  to={`/recipe/${meal.idMeal}`}
+                >
                   <img
                     className={styles.image}
                     src={meal.strMealThumb}

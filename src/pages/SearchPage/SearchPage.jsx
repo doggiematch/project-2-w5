@@ -67,7 +67,7 @@ function SearchPage() {
         <p className={styles.smallText}>Search by ingredient</p>
         <h1 className={styles.title}>Find recipes</h1>
         <p className={styles.description}>
-          Type one ingredient and discover meals you can cook with it.
+          Type one ingredient, or separate several ingredients with commas.
         </p>
         <div className={styles.searchBox}>
           <input

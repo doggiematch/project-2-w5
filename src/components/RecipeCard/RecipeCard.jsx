@@ -37,7 +37,7 @@ function RecipeCard({ meal, query }) {
       <Link
         className={styles.cardLink}
         to={`/recipe/${meal.idMeal}`}
-        state={{ fromSearch: true, query }}
+        state={{ fromSearch: true, query, meal }}
       >
         <img
           className={styles.image}

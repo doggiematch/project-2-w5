@@ -8,6 +8,7 @@ const previewQuery = "(min-width: 1024px)";
 
 function canOpenDesktopImagePreview() {
   if (typeof window === "undefined") return false;
+  if (typeof window.matchMedia !== "function") return false;
   return window.matchMedia(previewQuery).matches;
 }
 
@@ -33,7 +34,8 @@ function RecipeDetailPage() {
 
   useEffect(() => {
     let isActive = true;
-    getMealById(id).finally(() => {
+    const fallbackMeal = location.state?.meal;
+    getMealById(id, fallbackMeal).finally(() => {
       if (isActive) {
         setLoadedMealId(id);
       }
@@ -41,10 +43,11 @@ function RecipeDetailPage() {
     return () => {
       isActive = false;
     };
-  }, [id, getMealById]);
+  }, [id, getMealById, location.state]);
 
   useEffect(() => {
     if (typeof window === "undefined") return undefined;
+    if (typeof window.matchMedia !== "function") return undefined;
     const mediaQuery = window.matchMedia(previewQuery);
     const handlePreviewChange = (event) => {
       setCanPreviewImage(event.matches);
@@ -119,6 +122,8 @@ function RecipeDetailPage() {
       );
     }
   }
+  const hasInstructions = selectedMeal.strInstructions?.trim();
+  const hasIngredients = ingredients.length > 0;
 
   const isFavorite = favorites.some(
     (fav) => fav.idMeal === selectedMeal.idMeal,
@@ -138,6 +143,8 @@ function RecipeDetailPage() {
   const handleBack = () => {
     if (location.state?.fromSearch) {
       navigate("/search", { state: location.state });
+    } else if (location.state?.fromFavorites) {
+      navigate("/favorites");
     } else {
       navigate(-1);
     }
@@ -159,13 +166,13 @@ function RecipeDetailPage() {
               <p className={styles.recipeFact}>
                 <span className={styles.recipeLabel}>Category</span>
                 <span className={styles.recipeValue}>
-                  {selectedMeal.strCategory}
+                  {selectedMeal.strCategory || "Unknown"}
                 </span>
               </p>
               <p className={styles.recipeFact}>
                 <span className={styles.recipeLabel}>Area</span>
                 <span className={styles.recipeValue}>
-                  {selectedMeal.strArea}
+                  {selectedMeal.strArea || "Unknown"}
                 </span>
               </p>
             </div>
@@ -223,18 +230,24 @@ function RecipeDetailPage() {
           <div className={styles.detailsLayout}>
             <section className={styles.ingredientsPanel}>
               <h2 className={styles.sectionTitle}>Ingredients</h2>
-              <ul className={styles.ingredientsList}>
-                {ingredients.map((item, index) => (
-                  <li className={styles.ingredientItem} key={index}>
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              {hasIngredients ? (
+                <ul className={styles.ingredientsList}>
+                  {ingredients.map((item, index) => (
+                    <li className={styles.ingredientItem} key={index}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className={styles.status}>Ingredients are not available.</p>
+              )}
             </section>
             <section className={styles.instructionsPanel}>
               <h2 className={styles.sectionTitle}>Instructions</h2>
               <p className={styles.instructionsText}>
-                {selectedMeal.strInstructions}
+                {hasInstructions
+                  ? selectedMeal.strInstructions
+                  : "Instructions are not available right now."}
               </p>
             </section>
           </div>

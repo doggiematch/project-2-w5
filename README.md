@@ -12,7 +12,7 @@
 - Página de detalle para cada receta.
 - Página Favorites para guardar recetas favoritas.
 - Opción para añadir y quitar recetas de favoritos.
-- Búsqueda dentro de favoritos.
+- Búsqueda dentro de favoritos por ingrediente.
 - Favoritos guardados en `localStorage`.
 - Popup para ver la imagen de la receta más grande en escritorio.
 - Página 404 básica creada.
@@ -83,11 +83,10 @@
 
 - Tests con Vitest y Testing Library.
 - Test del estado inicial de la página Search.
-- Test del input de búsqueda.
-- Test de renderizado de resultados.
-- Test de búsqueda con varios ingredientes.
 - Test de renderizado de Favorites.
 - Test del mensaje cuando no hay favoritos.
+- Test de acceso al detalle desde Favorites aunque falle la API.
+- Test de búsqueda en Favorites por ingrediente.
 
 ### Project structure
 
